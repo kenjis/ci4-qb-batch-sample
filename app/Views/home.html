@@ -1,0 +1,46 @@
+<?= $this->extend('layouts/default.html') ?>
+
+<?= $this->section('content') ?>
+
+<div class="container">
+    <h1>CSV File Import Example</h1>
+
+    <div>
+        <?php if (session('success')) : ?>
+        <div class="alert alert-success">
+            <?= session('success') ?>
+        </div>
+        <?php endif; ?>
+
+        <div class="alert alert-info">
+            <p class="mb-0">
+                Use <a href="http://jusyo.jp/downloads/new/csv/csv_zenkoku.zip">csv_zenkoku.zip</a>
+                that can be downloaded from the site <a href="http://jusyo.jp/csv/new.php">"jusyo.jp"</a>.
+                It is CSV data for Japanese addresses.
+                It has about 150,000 records and is 20MB of data.
+            </p>
+            <p>
+                No details such as error handling have been implemented.
+            </p>
+        </div>
+
+        <div class="card p-3 mb-3">
+            <h2>insertBatch()</h2>
+
+<pre class="bg-dark text-white"><code>
+$db->table($this->table)->truncate();
+$db->table($this->table)->insertBatch($rows);
+</code></pre>
+
+            <?= form_open_multipart('/home/insert') ?>
+            <div>
+                <label class="form-label">Specify "csv_zenkoku.zip"</label>
+                <?= form_upload(['name' => 'userfile', 'accept' => 'application/zip']) ?>
+                <button class="btn btn-primary">Upload</button>
+            </div>
+            <?= form_close() ?>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>

@@ -2,10 +2,47 @@
 
 namespace App\Controllers;
 
+use App\Libraries\ImportZipData;
+
 class Home extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        helper('form');
+
+        return view('home.html');
+    }
+
+    public function insert()
+    {
+        $start = microtime(true);
+
+        $userfile = $this->request->getFile('userfile');
+
+        if ($userfile) {
+            $importer = new ImportZipData();
+
+            $csvFilePath     = $importer->upload($userfile);
+            $recordsImported = $importer->import($csvFilePath);
+
+            if ($recordsImported) {
+                $end        = microtime(true);
+                $peakMemory = memory_get_peak_usage();
+
+                return 'insertBatch(): ' . $recordsImported . ' records have been imported. '
+                    . $this->humanBytes($peakMemory) . ', ' . round($end - $start) . ' seconds.';
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    private function humanBytes(int $size = 0, array $units = ['B', 'KB', 'MB', 'GB', 'TB']): string
+    {
+        for ($i = 0; $size > 1024; $i++) {
+            $size /= 1024;
+        }
+
+        return round($size) . ' ' . $units[$i];
     }
 }
