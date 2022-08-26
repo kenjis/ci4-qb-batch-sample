@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
+        "ext-zip": "*",
         "codeigniter4/codeigniter4": "dev-develop"
     },
     "require-dev": {
