@@ -40,6 +40,22 @@ $db->table($this->table)->insertBatch($rows);
             </div>
             <?= form_close() ?>
         </div>
+
+        <div class="card p-3 mb-3">
+            <h2>updateBatch()</h2>
+
+<pre class="bg-dark text-white"><code>
+$db->table($this->table)->updateBatch($rows, 'id');
+</code></pre>
+
+            <?= form_open_multipart('/home/update') ?>
+            <div>
+                <label class="form-label">Specify "csv_zenkoku.zip"</label>
+                <?= form_upload(['name' => 'userfile', 'accept' => 'application/zip']) ?>
+                <button class="btn btn-primary">Upload</button>
+            </div>
+            <?= form_close() ?>
+        </div>
     </div>
 </div>
 

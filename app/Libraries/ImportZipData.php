@@ -101,4 +101,45 @@ class ImportZipData
 
         return $db->table($this->table)->countAll();
     }
+
+    public function update(string $filePath): int
+    {
+        set_time_limit(6000);
+        ini_set('memory_limit', '4096M');
+        ini_set('default_socket_timeout', '-1');
+
+        $db     = \Config\Database::connect();
+        $fields = $db->getFieldData($this->table);
+
+        $objFileCsv = new \CodeIgniter\Files\File($filePath);
+        $splFileCsv = $objFileCsv->openFile('r');
+        $splFileCsv->setFlags(
+            SplFileObject::READ_CSV |
+            SplFileObject::READ_AHEAD |
+            SplFileObject::SKIP_EMPTY |
+            SplFileObject::DROP_NEW_LINE
+        );
+
+        $splFileCsv->seek(1);
+        $rows = [];
+
+        while (! $splFileCsv->eof()) {
+            $currentRow = $splFileCsv->current();
+
+            $row = [];
+
+            foreach ($fields as $key => $field) {
+                $row[$field->name] = $currentRow[$key] ?? null;
+            }
+            $rows[] = $row;
+            $splFileCsv->next();
+        }
+        unset($splFileCsv);
+
+        $db->table($this->table)->updateBatch($rows, 'id');
+
+        unset($rows);
+
+        return $db->table($this->table)->countAll();
+    }
 }
