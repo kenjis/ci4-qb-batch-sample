@@ -33,8 +33,12 @@ class Home extends BaseController
                 $end        = microtime(true);
                 $peakMemory = memory_get_peak_usage();
 
-                return 'insertBatch(): ' . $recordsImported . ' records have been imported. '
+                $message = 'insertBatch(): ' . $recordsImported . ' records have been imported. '
                     . $this->humanBytes($peakMemory) . ', ' . round($end - $start) . ' seconds.';
+
+                log_message('debug', $message);
+
+                return $message;
             }
         }
 
@@ -61,8 +65,12 @@ class Home extends BaseController
                 $end        = microtime(true);
                 $peakMemory = memory_get_peak_usage();
 
-                return 'updateBatch(): ' . $recordsImported . ' records have been imported. '
+                $message = 'updateBatch(): ' . $recordsImported . ' records have been imported. '
                     . $this->humanBytes($peakMemory) . ', ' . round($end - $start) . ' seconds.';
+
+                log_message('debug', $message);
+
+                return $message;
             }
         }
 
