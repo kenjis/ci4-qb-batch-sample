@@ -15,6 +15,10 @@ class Home extends BaseController
 
     public function insert()
     {
+        set_time_limit(6000);
+        ini_set('memory_limit', '4096M');
+        ini_set('default_socket_timeout', '-1');
+
         $start = microtime(true);
 
         $userfile = $this->request->getFile('userfile');
@@ -39,6 +43,10 @@ class Home extends BaseController
 
     public function update()
     {
+        set_time_limit(6000);
+        ini_set('memory_limit', '4096M');
+        ini_set('default_socket_timeout', '-1');
+
         $start = microtime(true);
 
         $userfile = $this->request->getFile('userfile');

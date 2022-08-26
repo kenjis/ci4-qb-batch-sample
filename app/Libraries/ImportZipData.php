@@ -62,10 +62,6 @@ class ImportZipData
 
     public function import(string $filePath): int
     {
-        set_time_limit(6000);
-        ini_set('memory_limit', '4096M');
-        ini_set('default_socket_timeout', '-1');
-
         $db     = \Config\Database::connect();
         $fields = $db->getFieldData($this->table);
 
@@ -104,10 +100,6 @@ class ImportZipData
 
     public function update(string $filePath): int
     {
-        set_time_limit(6000);
-        ini_set('memory_limit', '4096M');
-        ini_set('default_socket_timeout', '-1');
-
         $db     = \Config\Database::connect();
         $fields = $db->getFieldData($this->table);
 
